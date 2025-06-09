@@ -1,10 +1,14 @@
 package com.dailycodework.dreamshops.service.product;
 
 import com.dailycodework.dreamshops.model.Product;
+import com.dailycodework.dreamshops.repository.ProductRepository;
 
 import java.util.List;
 
 public class ProductService implements IProductService {
+
+    private ProductRepository productRepository;
+
     @Override
     public Product addProduct(Product product) {
         return null;
