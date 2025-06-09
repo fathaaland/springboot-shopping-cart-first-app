@@ -1,5 +1,6 @@
 package com.dailycodework.dreamshops.service.product;
 
+import com.dailycodework.dreamshops.exceptions.ProductNotFoundException;
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.repository.ProductRepository;
 
@@ -16,12 +17,13 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProductById(Long id) {
-        return null;
+        return productRepository.findById(id).orElseThrow(()-> new ProductNotFoundException("Product not found!"));
     }
 
     @Override
     public void deleteProductById(Long id) {
-
+        productRepository.findById(id).orElseThrow(()-> new ProductNotFoundException("Product not found!"));
+        productRepository.deleteById(id);
     }
 
     @Override
@@ -31,22 +33,22 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        return productRepository.findAll();
     }
 
     @Override
     public List<Product> getProductsByCategory(String category) {
-        return List.of();
+        return productRepository.findByCategoryName(category);
     }
 
     @Override
     public List<Product> getProductsByBrand(String brand) {
-        return List.of();
+        return productRepository.findByCategoryName(brand);
     }
 
     @Override
     public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
-        return List.of();
+
     }
 
     @Override
