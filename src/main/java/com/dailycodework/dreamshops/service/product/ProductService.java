@@ -1,8 +1,10 @@
 package com.dailycodework.dreamshops.service.product;
 
 import com.dailycodework.dreamshops.exceptions.ProductNotFoundException;
+import com.dailycodework.dreamshops.model.Category;
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.repository.ProductRepository;
+import com.dailycodework.dreamshops.request.AddProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,20 @@ public class ProductService implements IProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public Product addProduct(Product product) {
+    public Product addProduct(AddProductRequest product) {
         return null;
+    }
+
+    private Product createProduct(AddProductRequest request, Category category) {
+
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+        );
     }
 
     @Override
