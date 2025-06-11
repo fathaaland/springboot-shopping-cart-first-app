@@ -8,17 +8,21 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
     private String name;
+
+    public Category(String name) {
+        this.name = name;
+    }
 
 
     @OneToMany(mappedBy = "category")
