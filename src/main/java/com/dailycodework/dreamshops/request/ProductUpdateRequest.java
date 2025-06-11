@@ -1,0 +1,15 @@
+package com.dailycodework.dreamshops.request;
+
+import com.dailycodework.dreamshops.model.Category;
+
+import java.math.BigDecimal;
+
+public class ProductUpdateRequest {
+    private Long id;
+    private String name;
+    private String brand;
+    private String description;
+    private BigDecimal price;
+    private int inventory;
+    private Category category;
+}
