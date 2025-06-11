@@ -39,4 +39,7 @@ public class Product {
         this.inventory = inventory;
         this.category = category;
     }
+
+    public Product(String name, String brand, BigDecimal price, int inventory, String description, Category category) {
+    }
 }
