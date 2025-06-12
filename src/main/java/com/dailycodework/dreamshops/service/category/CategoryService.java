@@ -1,16 +1,25 @@
 package com.dailycodework.dreamshops.service.category;
 
+import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Category;
+import com.dailycodework.dreamshops.repository.CategoryRepository;
 import com.dailycodework.dreamshops.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class CategoryService implements ICategoryService {
 
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Category getCategoryById(Long id) {
-        return null;
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));;
     }
 
     @Override
