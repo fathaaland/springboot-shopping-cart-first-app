@@ -1,9 +1,19 @@
 package com.dailycodework.dreamshops.service.image;
 
 import com.dailycodework.dreamshops.model.Image;
+import com.dailycodework.dreamshops.repository.ImageRepository;
+import com.dailycodework.dreamshops.service.product.IProductService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+
+@Service
+@AllArgsConstructor
 public class ImageService implements IImageService {
+
+    private final ImageRepository imageRepository;
+    private final IProductService productService;
 
     @Override
     public Image getImageById(Long id) {
