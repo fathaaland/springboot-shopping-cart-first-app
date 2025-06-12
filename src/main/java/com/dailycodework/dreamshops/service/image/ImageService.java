@@ -8,6 +8,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
+import java.sql.SQLException;
+
 
 @Service
 @AllArgsConstructor
@@ -37,6 +41,14 @@ public class ImageService implements IImageService {
 
     @Override
     public void updateImage(MultipartFile file, Long imageId) {
-
+        Image image = getImageById(imageId);
+        try {
+            image.setFileName(file.getOriginalFilename());
+            image.setImage(new SerialBlob(file.getBytes()));
+            imageRepository.save(image);
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
+
 }
