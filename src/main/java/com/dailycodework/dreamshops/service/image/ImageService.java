@@ -1,5 +1,6 @@
 package com.dailycodework.dreamshops.service.image;
 
+import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Image;
 import com.dailycodework.dreamshops.repository.ImageRepository;
 import com.dailycodework.dreamshops.service.product.IProductService;
@@ -17,11 +18,15 @@ public class ImageService implements IImageService {
 
     @Override
     public Image getImageById(Long id) {
-        return null;
+        return imageRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Image not found with id: " + id));
     }
 
     @Override
     public void deleteImageById(Long id) {
+        imageRepository.findById(id).ifPresentOrElse(imageRepository::delete, () -> {
+            throw new ResourceNotFoundException("Image not found with id: " + id);
+        });
 
     }
 
