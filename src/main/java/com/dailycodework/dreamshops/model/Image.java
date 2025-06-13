@@ -21,11 +21,11 @@ public class Image {
     private String fileType;
     @Lob
     private Blob image;
-    private String downLoadUrl;
+    private String downloadUrl;
+
 
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
 }
