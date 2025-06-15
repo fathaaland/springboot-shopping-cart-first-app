@@ -1,6 +1,7 @@
 package com.dailycodework.dreamshops.controller;
 
 import com.dailycodework.dreamshops.dto.ImageDto;
+import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Image;
 import com.dailycodework.dreamshops.response.ApiResponse;
 import com.dailycodework.dreamshops.service.image.IImageService;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RequiredArgsConstructor
 @RestController
@@ -44,6 +46,19 @@ public class ImageController {
                 .body(resource);
     }
 
+    @PutMapping("/image/{imageId}/update")
+    public ResponseEntity<ApiResponse> updateImage(@PathVariable Long imageId, @RequestBody MultipartFile file) {
+        try {
+            Image image = imageService.getImageById(imageId);
+            if (image != null) {
+                imageService.updateImage(file, imageId);
+                return ResponseEntity.ok(new ApiResponse( "Update success!", null));
+            }
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+        }
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Update failed!", INTERNAL_SERVER_ERROR));
+    }
 
 }
 
