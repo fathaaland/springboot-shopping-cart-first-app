@@ -74,5 +74,18 @@ public class CategoryController {
 
     }
 
+    @DeleteMapping("category/{id}/delete")
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long id) {
+        try {
+            categoryService.deleteCategoryById(id);
+            return ResponseEntity.ok(new ApiResponse("Category deleted successfully", null));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Failed to delete category: " + e.getMessage(), null));
+        }
+    }
+
 
 }
