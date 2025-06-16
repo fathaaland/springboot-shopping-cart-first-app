@@ -1,6 +1,7 @@
 package com.dailycodework.dreamshops.controller;
 
 import com.dailycodework.dreamshops.exceptions.AlreadyExistsException;
+import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Category;
 import com.dailycodework.dreamshops.response.ApiResponse;
 import com.dailycodework.dreamshops.service.category.ICategoryService;
@@ -42,6 +43,20 @@ public class CategoryController {
             return ResponseEntity.ok(new ApiResponse("Category added successfully", thecategory));
         } catch (AlreadyExistsException e) {
             return ResponseEntity.status(CONFLICT).body(new ApiResponse(e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/category/{id}/category")
+    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable Long id) {
+        try {
+            Category thecategory = categoryService.getCategoryById(id);
+            return ResponseEntity.ok(new ApiResponse("Category fetched successfully", thecategory));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Failed to fetch category: " + e.getMessage(), null));
+
         }
     }
 
