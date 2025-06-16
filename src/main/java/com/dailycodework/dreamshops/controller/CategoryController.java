@@ -60,5 +60,19 @@ public class CategoryController {
         }
     }
 
+    @GetMapping("/{name}/category")
+    public ResponseEntity<ApiResponse> getCategoryByName(@PathVariable String name) {
+        try {
+            Category thecategory = categoryService.getCategoryByName(name);
+            return ResponseEntity.ok(new ApiResponse("Category fetched successfully", thecategory));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Failed to fetch category: " + e.getMessage(), null));
+        }
+
+    }
+
 
 }
