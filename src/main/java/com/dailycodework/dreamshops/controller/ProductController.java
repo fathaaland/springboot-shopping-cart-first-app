@@ -3,6 +3,7 @@ package com.dailycodework.dreamshops.controller;
 
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.request.AddProductRequest;
+import com.dailycodework.dreamshops.request.ProductUpdateRequest;
 import com.dailycodework.dreamshops.response.ApiResponse;
 import com.dailycodework.dreamshops.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.apache.tomcat.websocket.Constants.FOUND;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,7 +23,7 @@ public class ProductController {
 
     @GetMapping("/products/all")
     public ResponseEntity<ApiResponse> getAllProducts() {
-        try{
+        try {
             List<Product> products = productService.getAllProducts();
             return ResponseEntity.ok(new ApiResponse("Products fetched successfully", products));
         } catch (Exception e) {
@@ -48,6 +51,19 @@ public class ProductController {
             return ResponseEntity.status(500).body(new ApiResponse("Failed to add product: " + e.getMessage(), null));
         }
     }
+
+    @PutMapping("/product/{productId}/update")
+    public ResponseEntity<ApiResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductUpdateRequest request) {
+        try {
+            Product updatedProduct = productService.updateProduct(productId, request);
+            return ResponseEntity.ok(new ApiResponse("Product updated successfully", updatedProduct));
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(new ApiResponse("Failed to update product: " + e.getMessage(), null));
+        }
+    }
+
+}
+
 
 
 }
