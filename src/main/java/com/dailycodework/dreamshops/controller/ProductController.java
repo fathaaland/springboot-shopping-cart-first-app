@@ -17,6 +17,7 @@ import static org.apache.tomcat.websocket.Constants.FOUND;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("${api.prefix}/products")
+
 public class ProductController {
 
     private final IProductService productService;
@@ -62,15 +63,17 @@ public class ProductController {
         }
     }
 
-}
 
 @DeleteMapping("/product/{productId}/delete")
     public ResponseEntity<ApiResponse> deleteProductBy(@PathVariable Long productId) {
         try {
+
             productService.deleteProductById(productId);
             return ResponseEntity.ok(new ApiResponse("Product deleted successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(404).body(new ApiResponse("Failed to delete product: " + e.getMessage(), null));
         }
+
+    }
 
 }
