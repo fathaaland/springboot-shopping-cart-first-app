@@ -6,10 +6,7 @@ import com.dailycodework.dreamshops.response.ApiResponse;
 import com.dailycodework.dreamshops.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +24,16 @@ public class ProductController {
             return ResponseEntity.ok(new ApiResponse("Products fetched successfully", products));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(new ApiResponse("Failed to fetch products: " + e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/products/{productId}/product")
+    public ResponseEntity<ApiResponse> getProductById(@PathVariable Long productId) {
+        try {
+            Product product = productService.getProductById(productId);
+            return ResponseEntity.ok(new ApiResponse("Product fetched successfully", product));
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(new ApiResponse("Product not found: " + e.getMessage(), null));
         }
     }
 
