@@ -125,4 +125,22 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/products/by/brand/{brandName}")
+    public ResponseEntity<ApiResponse> getProductsByBrand(@PathVariable String brandName) {
+        try {
+            List<Product> products = productService.getProductsByBrand(brandName);
+
+            if (products.isEmpty()) {
+                return ResponseEntity.status(404).body(new ApiResponse("No products found for the given brand and name", null));
+            }
+
+            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", products));
+        } catch (Exception e){
+            return ResponseEntity.status(500).body(new ApiResponse("Failed to fetch products: " + e.getMessage(), null));
+        }
+
+    }
+
+
+
 }
