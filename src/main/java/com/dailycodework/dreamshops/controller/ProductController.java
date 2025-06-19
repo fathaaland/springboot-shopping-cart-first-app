@@ -1,6 +1,7 @@
 package com.dailycodework.dreamshops.controller;
 
 
+import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.request.AddProductRequest;
 import com.dailycodework.dreamshops.request.ProductUpdateRequest;
@@ -72,6 +73,23 @@ public class ProductController {
             return ResponseEntity.ok(new ApiResponse("Product deleted successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(404).body(new ApiResponse("Failed to delete product: " + e.getMessage(), null));
+        }
+
+    }
+
+
+    @GetMapping("/products/by/name-and-brand")
+    public ResponseEntity<ApiResponse> getProductsByBrandAndName(@PathVariable String brandName, @PathVariable String productName) {
+        try {
+            List<Product> products = productService.getProductsByBrandAndName(brandName, productName);
+
+            if (products.isEmpty()) {
+                return ResponseEntity.status(404).body(new ApiResponse("No products found for the given brand and name", null));
+            }
+
+            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", products));
+        } catch (Exception e){
+            return ResponseEntity.status(500).body(new ApiResponse("Failed to fetch products: " + e.getMessage(), null));
         }
 
     }
