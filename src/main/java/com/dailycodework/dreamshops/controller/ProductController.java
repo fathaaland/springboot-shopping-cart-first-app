@@ -110,4 +110,19 @@ public class ProductController {
 
     }
 
+    @GetMapping("/products/{productName}/product")
+    public ResponseEntity<ApiResponse> getProductsByName(@PathVariable String productName) {
+        try {
+            List<Product> products = productService.getProductsByName(productName);
+
+            if (products.isEmpty()) {
+                return ResponseEntity.status(404).body(new ApiResponse("No products found for the given brand and name", null));
+            }
+
+            return ResponseEntity.ok(new ApiResponse("Product fetched successfully", products));
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(new ApiResponse("Product not found: " + e.getMessage(), null));
+        }
+    }
+
 }
