@@ -127,10 +127,10 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/products/by/brand/")
-    public ResponseEntity<ApiResponse> getProductsByBrand(@RequestParam String brandName) {
+    @GetMapping("/products/by-brand")
+    public ResponseEntity<ApiResponse> getProductsByBrand(@RequestParam String brand) {
         try {
-            List<Product> products = productService.getProductsByBrand(brandName);
+            List<Product> products = productService.getProductsByBrand(brand);
 
             if (products.isEmpty()) {
                 return ResponseEntity.status(404).body(new ApiResponse("No products found for the given brand and name", null));
