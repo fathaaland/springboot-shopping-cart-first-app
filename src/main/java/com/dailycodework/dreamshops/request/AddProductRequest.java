@@ -14,7 +14,7 @@ import java.util.List;
 
 @Data
 public class AddProductRequest {
-    private Long id;
+//    private Long id;
     private String name;
     private String brand;
     private String description;
