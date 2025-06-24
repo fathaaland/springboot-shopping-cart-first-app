@@ -1,5 +1,6 @@
 package com.dailycodework.dreamshops.service.product;
 
+import com.dailycodework.dreamshops.dto.ProductDto;
 import com.dailycodework.dreamshops.exceptions.ProductNotFoundException;
 import com.dailycodework.dreamshops.model.Category;
 import com.dailycodework.dreamshops.model.Product;
@@ -79,9 +80,20 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductDto> getAllProductsDto() {
+        return productRepository.findAll().stream()
+                .map(product -> new ProductDto(
+                        product.getId(),
+                        product.getName(),
+                        product.getBrand(),
+                        product.getDescription(),
+                        product.getPrice(),
+                        product.getInventory(),
+                        product.getCategory().getName()
+                ))
+                .toList();
     }
+
 
     @Override
     public List<Product> getProductsByCategory(String category) {

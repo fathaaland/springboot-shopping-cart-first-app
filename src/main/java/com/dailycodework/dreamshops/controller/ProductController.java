@@ -1,6 +1,7 @@
 package com.dailycodework.dreamshops.controller;
 
 
+import com.dailycodework.dreamshops.dto.ProductDto;
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.request.AddProductRequest;
@@ -26,12 +27,13 @@ public class ProductController {
     @GetMapping("/products/all")
     public ResponseEntity<ApiResponse> getAllProducts() {
         try {
-            List<Product> products = productService.getAllProducts();
+            List<ProductDto> products = productService.getAllProductsDto();
             return ResponseEntity.ok(new ApiResponse("Products fetched successfully", products));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(new ApiResponse("Failed to fetch products: " + e.getMessage(), null));
         }
     }
+
 
     @GetMapping("/products/{productId}/product")
     public ResponseEntity<ApiResponse> getProductById(@PathVariable Long productId) {
