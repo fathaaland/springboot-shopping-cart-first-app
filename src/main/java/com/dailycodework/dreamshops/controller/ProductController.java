@@ -17,7 +17,7 @@ import static org.apache.tomcat.websocket.Constants.FOUND;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("${api.prefix}/products")
+@RequestMapping("${api.prefix}")
 
 public class ProductController {
 
@@ -44,7 +44,7 @@ public class ProductController {
     }
 
 
-    @PostMapping("/product/add")
+    @PostMapping("/products/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
         try {
             Product theProduct = productService.addProduct(product);
