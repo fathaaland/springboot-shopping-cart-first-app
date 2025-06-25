@@ -2,6 +2,7 @@ package com.dailycodework.dreamshops.controller;
 
 
 import com.dailycodework.dreamshops.dto.ProductDto;
+import com.dailycodework.dreamshops.exceptions.ProductNotFoundException;
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.request.AddProductRequest;
@@ -40,10 +41,13 @@ public class ProductController {
         try {
             Product product = productService.getProductById(productId);
             return ResponseEntity.ok(new ApiResponse("Product fetched successfully", product));
-        } catch (Exception e) {
+        } catch (ProductNotFoundException e) {
             return ResponseEntity.status(404).body(new ApiResponse("Product not found: " + e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiResponse("Internal server error: " + e.getMessage(), null));
         }
     }
+
 
 
     @PostMapping("/products/add")
@@ -61,13 +65,16 @@ public class ProductController {
         try {
             Product updatedProduct = productService.updateProduct(productId, request);
             return ResponseEntity.ok(new ApiResponse("Product updated successfully", updatedProduct));
+        } catch (ProductNotFoundException e) {
+            return ResponseEntity.status(404).body(new ApiResponse("Product not found: " + e.getMessage(), null));
         } catch (Exception e) {
-            return ResponseEntity.status(404).body(new ApiResponse("Failed to update product: " + e.getMessage(), null));
+            return ResponseEntity.status(500).body(new ApiResponse("Failed to update product: " + e.getMessage(), null));
         }
     }
 
 
-@DeleteMapping("/product/{productId}/delete")
+
+    @DeleteMapping("/product/{productId}/delete")
     public ResponseEntity<ApiResponse> deleteProductBy(@PathVariable Long productId) {
         try {
 
@@ -112,7 +119,7 @@ public class ProductController {
 
     }
 
-    @GetMapping("/products/{productName}/product")
+    @GetMapping("/products/name/{productName}")
     public ResponseEntity<ApiResponse> getProductsByName(@PathVariable String productName) {
         try {
             List<Product> products = productService.getProductsByName(productName);
