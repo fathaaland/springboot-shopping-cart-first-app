@@ -6,7 +6,9 @@ import com.dailycodework.dreamshops.model.Image;
 import com.dailycodework.dreamshops.model.Product;
 import com.dailycodework.dreamshops.repository.ImageRepository;
 import com.dailycodework.dreamshops.service.product.IProductService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +25,14 @@ public class ImageService implements IImageService {
 
     private final ImageRepository imageRepository;
     private final IProductService productService;
+
+
+    @Transactional
+    public ByteArrayResource getImageAsResource(Long imageId) throws SQLException {
+        Image image = getImageById(imageId);
+        byte[] bytes = image.getImage().getBytes(1, (int) image.getImage().length());
+        return new ByteArrayResource(bytes);
+    }
 
     @Override
     public Image getImageById(Long id) {
@@ -86,4 +96,7 @@ public class ImageService implements IImageService {
         }
     }
 
+
 }
+
+
